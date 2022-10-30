@@ -1,7 +1,8 @@
 const ediAlumnoService = require("../services/editAlumnosService");
-const addAlumnoService = require("../services/addAlumnosService");
+const addAlumnoService = require("../services/addAlumnosServices");
 const deleteAlumnoService = require("../services/deleteAlumnoService");
-const getAlumnosService= require("../services/getAlumnosService" );
+const getAlumnosService = require("../services/getAlumnosService" );
+const {validationResult } = require("express-validator");
 
 const addAlumno = async (req, res, next) => {
 const errors = validationResult(req);
