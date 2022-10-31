@@ -1,28 +1,43 @@
 const { getAlumno, addAlumno, editAlumno, deleteAlumno, } = require("../controller/estudiantesController");
 const express = require("express");
-const { body, validationResult } = require("express-validator");
 const router = express.Router();
-// const logMiddlware = require("../utils/middleware/logMiddleware");
+const { body } = require("express-validator");
+const logMiddlware = require("../utils/middleware/logMiddleware");
+const { exists } = require("../models/alumnos.model");
 
 
 
 
 router.post(
-    "/User",
-    body('name').isString().withMessage("No se permiten caracteres que no sean letras en el campo de nombre"),
-    body('lastName').isString().withMessage("No se permiten caracteres que no sean letras en el campo de apellido"),
-    body('specialization').contains('Cirujia' || 'Pediatria' || 'Quinesiologia' || 'Cardiologia' || 'Proctologia').withMessage("La especializacion ingresada no corresponde a una dada en nuestro plan de estudios"),
+    "/Alumno",
+    body("name","Por favor ingrese un nombre").exists(),
+    body("name","Tipo de dato incorrecto").isString(),
+    body("lastName","Por favor ingrese un apellido").exists(),
+    body("lastName","Tipo de dato incorrecto").isString(),
+    body("age","Por favor ingrese una edad").exists,
+    body("age","Por favor ingrese un valor numerico").isNumeric(),
+    body("specialization","por favor ingrese una carrera").exists(),
+    body("specialization","Tipo de dato incorrecto").isString(),
+
     // async (req, res, next) => {
     //     const errors = validationResult(req);
     //     if (!errors.isEmpty()) {
     //         return res.status(400).json({ errors: errors.array() })
     //     }
-    //     next(req)
+    //     next()
     // },
     addAlumno
 );
-router.get("/Alumno", getAlumno);
+
+var requestTime = function (req, res, next) {
+    req.requestTime = Date.now();
+    next();
+};
+
+router.use(requestTime);
+
+router.get("/Alumno", logMiddlware, getAlumno);
 router.put("/Alumno/:_id", editAlumno);
-router.delete("/ALumno/:_id", deleteAlumno)
+router.delete("/Alumno/:_id", deleteAlumno)
 
 module.exports = router;
