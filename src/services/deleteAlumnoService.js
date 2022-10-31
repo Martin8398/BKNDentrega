@@ -1,6 +1,6 @@
 const AlumnoModel = require("../models/alumnos.model");
 
-constdeleteAlumnoService = async (req) => {
+const deleteAlumnoService = async (req) => {
     const { _id } = req.params
     await AlumnoModel.deleteOne({ _id: _id })
 };
