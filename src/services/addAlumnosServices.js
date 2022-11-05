@@ -8,7 +8,6 @@ const addAlumnoService = async (req) => {
   alumno.age=res.data.age;
   const newAlumno = new AlumnoModel(alumno);
   await newAlumno.save();
-  return newAlumno;
 };
 
 module.exports = addAlumnoService;
